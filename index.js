@@ -5,7 +5,9 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override')
 
 
+
 const Product = require('./models/product');
+const appError = require('./appError');
 
 mongoose.connect('mongodb://localhost:27017/farmStand', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
@@ -25,10 +27,11 @@ app.use(methodOverride('_method'))
 
 const categories = ['fruit', 'vegetable', 'dairy'];
 
-app.get('/products', async (req, res) => {
+app.get('/products', async (req, res,next) => {
     const { category } = req.query;
     if (category) {
         const products = await Product.find({ category })
+        
         res.render('products/index', { products, category })
     } else {
         const products = await Product.find({})
@@ -37,6 +40,7 @@ app.get('/products', async (req, res) => {
 })
 
 app.get('/products/new', (req, res) => {
+    // throw new appError(500,'Something went wrong') ;
     res.render('products/new', { categories })
 })
 
