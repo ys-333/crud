@@ -1,9 +1,10 @@
 class appError extends Error{
-    constructor(stauts,message){
+   
+    constructor(status,message){
         super() ;
-        this.stauts = stauts ;
+        this.status = status ;
         this.message= message ;
     }
 
-}
+} ;
 module.exports = appError ;
